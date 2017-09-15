@@ -484,16 +484,18 @@ login_using_bluemix_user_password(){
 ################################
 login_to_container_service(){
     # set targeting information from config.json file
-    if [ -f ~/.cf/config.json ]; then
-        get_targeting_info
-    fi
+    #if [ -f ~/.cf/config.json ]; then
+   #     get_targeting_info
+    #fi
     # Check if we are already logged in via ice command 
-    ice_login_check
-    local RC=$?
+   # ice_login_check
+   # local RC=$?
     # check login result 
-    if [ $RC -ne 0 ]; then
+   # if [ $RC -ne 0 ]; then
         echo -e "${red}}Failed to access to IBM Container Service using credentials passed from IBM DevOps Services. 'ice info' command failed with return code ${RC}. ${no_color}"
         echo -e "${red}}Trying to login with 'ice login' command using Bluemix userid and password and check again 'ice info' command. ${no_color}"
+        echo "$API_KEY"
+        echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
         if [ -n "$API_KEY" ]; then 
             echo -e "${label_color}Logging on with API_KEY${no_color}"
             ice_login_with_api_key ${API_KEY} 2> /dev/null
@@ -502,9 +504,9 @@ login_to_container_service(){
             login_using_bluemix_user_password
             RC=$?
         fi
-    else
-        echo -e "${label_color}Successfully accessed into IBM Container Service using credentials passed from IBM DevOps Services ${no_color}"
-    fi
+   # else
+  #      echo -e "${label_color}Successfully accessed into IBM Container Service using credentials passed from IBM DevOps Services ${no_color}"
+   # fi
     # check login result 
     if [ $RC -ne 0 ]; then
         echo -e "${red}Failed to accessed into IBM Container Service${no_color}" | tee -a "$ERROR_LOG_FILE"
